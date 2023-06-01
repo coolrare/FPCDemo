@@ -1,3 +1,4 @@
+using ApiDemo1.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiDemo1.Controllers
@@ -12,10 +13,12 @@ namespace ApiDemo1.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly MySample sample;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, MySample sample)
         {
             _logger = logger;
+            this.sample = sample;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -28,6 +31,12 @@ namespace ApiDemo1.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("sample")]
+        public MySample GetSample()
+        {
+            return sample;
         }
     }
 }
