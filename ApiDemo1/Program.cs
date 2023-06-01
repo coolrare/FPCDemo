@@ -11,44 +11,17 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-//// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
-
-//app.UseHttpsRedirection();
-
-//app.UseAuthorization();
-
-//app.MapControllers();
-
-app.Map("/hello", (app) =>
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    app.Run(async (context) =>
-    {
-        await context.Response.WriteAsync("Hello World");
-    });
-});
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-app.Use(async (context, next) =>
-{
-    await context.Response.WriteAsync("1");
-    await next();
-    await context.Response.WriteAsync("2");
-});
+app.UseHttpsRedirection();
 
-app.Use(async (context, next) =>
-{
-    await context.Response.WriteAsync("3");
-    await next();
-    await context.Response.WriteAsync("4");
-});
+app.UseAuthorization();
 
-app.Run(async (context) =>
-{
-    await context.Response.WriteAsync("5");
-});
+app.MapControllers();
 
 app.Run();
