@@ -24,6 +24,14 @@ var app = builder.Build();
 
 //app.MapControllers();
 
+app.Map("/hello", (app) =>
+{
+    app.Run(async (context) =>
+    {
+        await context.Response.WriteAsync("Hello World");
+    });
+});
+
 app.Use(async (context, next) =>
 {
     await context.Response.WriteAsync("1");
