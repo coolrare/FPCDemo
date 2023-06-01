@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,17 +11,36 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+
+//app.UseHttpsRedirection();
+
+//app.UseAuthorization();
+
+//app.MapControllers();
+
+app.Use(async (context, next) =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    await context.Response.WriteAsync("1");
+    await next();
+    await context.Response.WriteAsync("2");
+});
 
-app.UseHttpsRedirection();
+app.Use(async (context, next) =>
+{
+    await context.Response.WriteAsync("3");
+    await next();
+    await context.Response.WriteAsync("4");
+});
 
-app.UseAuthorization();
-
-app.MapControllers();
+app.Run(async (context) =>
+{
+    await context.Response.WriteAsync("5");
+});
 
 app.Run();
