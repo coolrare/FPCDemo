@@ -20,7 +20,11 @@ namespace MvcDemo1.Controllers
 
         public IActionResult Privacy()
         {
+            throw new Exception("This is a test exception");
+
+#pragma warning disable CS0162 // Unreachable code detected
             return View();
+#pragma warning restore CS0162 // Unreachable code detected
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
