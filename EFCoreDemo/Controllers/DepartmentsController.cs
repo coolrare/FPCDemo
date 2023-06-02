@@ -58,7 +58,9 @@ namespace EFCoreDemo.Controllers
                                                 CourseId = p.CourseId,
                                                 Credits = p.Credits,
                                                 DepartmentId = p.DepartmentId,
-                                                Title = p.Title
+                                                Title = p.Title,
+                                                DateCreated = p.DateCreated,
+                                                DateModified = p.DateModified
                                             }).ToList();
         }
 

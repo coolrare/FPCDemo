@@ -16,4 +16,8 @@ public partial class CourseDto
     public int DepartmentId { get; set; }
 
     public string DepartmentName { get; set; }
+
+    public DateTime DateModified { get; set; }
+
+    public DateTime DateCreated { get; set; }
 }

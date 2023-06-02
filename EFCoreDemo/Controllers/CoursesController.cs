@@ -33,7 +33,9 @@ namespace EFCoreDemo.Controllers
                     CourseId = p.CourseId,
                     Credits = p.Credits,
                     DepartmentId = p.DepartmentId,
-                    Title = p.Title
+                    Title = p.Title,
+                    DateCreated = p.DateCreated,
+                    DateModified = p.DateModified
                 }).ToListAsync();
         }
 
@@ -70,8 +72,8 @@ namespace EFCoreDemo.Controllers
             }
 
             c.InjectFrom(course);
-            //c.Title = course.Title;
-            //c.Credits = course.Credits;
+
+            c.DateModified = DateTime.Now;
 
             try
             {
@@ -104,6 +106,8 @@ namespace EFCoreDemo.Controllers
 
             var c = new Course();
             c.InjectFrom(courseDto);
+
+            c.DateCreated = DateTime.Now;
 
             _context.Course.Add(c);
             await _context.SaveChangesAsync();
