@@ -103,10 +103,6 @@ namespace EFCoreDemo.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
-            if (_context.Course == null)
-            {
-                return NotFound();
-            }
             var course = await _context.Course.FindAsync(id);
             if (course == null)
             {
