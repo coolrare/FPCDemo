@@ -38,6 +38,12 @@ public partial class ContosoUniversityContext : DbContext
             entity.HasIndex(e => e.DepartmentId, "IX_DepartmentID");
 
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
+            entity.Property(e => e.DateCreated)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.DateModified)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.DepartmentId)
                 .HasDefaultValueSql("((1))")
                 .HasColumnName("DepartmentID");
