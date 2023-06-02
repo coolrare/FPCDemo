@@ -88,7 +88,6 @@ namespace EFCoreDemo.Controllers
 
             var c = new Course
             {
-                CourseId = course.CourseId,
                 Title = course.Title,
                 Credits = course.Credits,
                 DepartmentId = course.DepartmentId

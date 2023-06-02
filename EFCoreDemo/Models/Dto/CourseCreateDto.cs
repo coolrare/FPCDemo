@@ -7,8 +7,6 @@ namespace EFCoreDemo.Models;
 
 public partial class CourseCreateDto
 {
-    public int CourseId { get; set; }
-
     public string Title { get; set; }
 
     public int Credits { get; set; } = 1;
