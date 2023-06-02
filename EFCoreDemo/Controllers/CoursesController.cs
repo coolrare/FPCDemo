@@ -31,16 +31,22 @@ namespace EFCoreDemo.Controllers
 
         // GET: api/Courses/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> GetCourse(int id)
+        public async Task<ActionResult<CourseDto>> GetCourse(int id)
         {
-            var course = await _context.Course.FindAsync(id);
+            var course = await _context.Course.Include(p => p.Department).FirstOrDefaultAsync(p => p.CourseId == id);
 
             if (course == null)
             {
                 return NotFound();
             }
 
-            return course;
+            var courseDto = new CourseDto();
+
+            courseDto.InjectFrom(course);
+
+            courseDto.DepartmentName = course.Department.Name;
+
+            return courseDto;
         }
 
         // PUT: api/Courses/5
