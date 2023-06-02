@@ -95,7 +95,7 @@ namespace EFCoreDemo.Controllers
         // POST: api/Courses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Course>> PostCourse(CourseCreateDto course)
+        public async Task<ActionResult<CourseDto>> PostCourse(CourseCreateDto courseDto)
         {
             if (_context.Course == null)
             {
@@ -103,12 +103,18 @@ namespace EFCoreDemo.Controllers
             }
 
             var c = new Course();
-            c.InjectFrom(course);
+            c.InjectFrom(courseDto);
 
             _context.Course.Add(c);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCourse", new { id = c.CourseId }, c);
+            var c1 = await _context.Course.Include(p => p.Department).FirstOrDefaultAsync(p => p.CourseId == c.CourseId);
+            var c2 = new CourseDto();
+
+            c2.InjectFrom(c1);
+            c2.DepartmentName = c1?.Department.Name;
+
+            return CreatedAtAction("GetCourse", new { id = c2.CourseId }, c2);
         }
 
         // DELETE: api/Courses/5
