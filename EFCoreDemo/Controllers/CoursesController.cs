@@ -79,16 +79,25 @@ namespace EFCoreDemo.Controllers
         // POST: api/Courses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Course>> PostCourse(Course course)
+        public async Task<ActionResult<Course>> PostCourse(CourseCreateDto course)
         {
             if (_context.Course == null)
             {
                 return Problem("Entity set 'ContosoUniversityContext.Course'  is null.");
             }
-            _context.Course.Add(course);
+
+            var c = new Course
+            {
+                CourseId = course.CourseId,
+                Title = course.Title,
+                Credits = course.Credits,
+                DepartmentId = course.DepartmentId
+            };
+
+            _context.Course.Add(c);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCourse", new { id = course.CourseId }, course);
+            return CreatedAtAction("GetCourse", new { id = c.CourseId }, c);
         }
 
         // DELETE: api/Courses/5
