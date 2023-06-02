@@ -73,7 +73,7 @@ namespace EFCoreDemo.Controllers
 
             c.InjectFrom(course);
 
-            c.DateModified = DateTime.Now;
+            //c.DateModified = DateTime.Now;
 
             try
             {
@@ -107,7 +107,7 @@ namespace EFCoreDemo.Controllers
             var c = new Course();
             c.InjectFrom(courseDto);
 
-            c.DateCreated = DateTime.Now;
+            //c.DateCreated = DateTime.Now;
 
             _context.Course.Add(c);
             await _context.SaveChangesAsync();
