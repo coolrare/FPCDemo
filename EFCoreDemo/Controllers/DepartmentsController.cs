@@ -42,6 +42,26 @@ namespace EFCoreDemo.Controllers
             return department;
         }
 
+        [HttpGet("{id}/Courses")]
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetDepartmentCourses(int id)
+        {
+            var department = await _context.Department.Include(p => p.Course).FirstOrDefaultAsync(p => p.DepartmentId == id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            return department.Course.Select(p => new CourseDto()
+                                            {
+                                                DepartmentName = p.Department.Name,
+                                                CourseId = p.CourseId,
+                                                Credits = p.Credits,
+                                                DepartmentId = p.DepartmentId,
+                                                Title = p.Title
+                                            }).ToList();
+        }
+
         // PUT: api/Departments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
