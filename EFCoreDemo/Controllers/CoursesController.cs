@@ -24,9 +24,17 @@ namespace EFCoreDemo.Controllers
 
         // GET: api/Courses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourse()
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourse()
         {
-            return await _context.Course.ToListAsync();
+            return await _context.Course.Include(p => p.Department)
+                .Select(p => new CourseDto()
+                {
+                    DepartmentName = p.Department.Name,
+                    CourseId = p.CourseId,
+                    Credits = p.Credits,
+                    DepartmentId = p.DepartmentId,
+                    Title = p.Title
+                }).ToListAsync();
         }
 
         // GET: api/Courses/5
