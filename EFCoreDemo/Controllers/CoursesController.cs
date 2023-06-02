@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EFCoreDemo.Models;
 using EFCoreDemo.Models.Dto;
+using Omu.ValueInjecter;
 
 namespace EFCoreDemo.Controllers
 {
@@ -54,8 +55,9 @@ namespace EFCoreDemo.Controllers
                 return NotFound();
             }
 
-            c.Title = course.Title;
-            c.Credits = course.Credits;
+            c.InjectFrom(course);
+            //c.Title = course.Title;
+            //c.Credits = course.Credits;
 
             try
             {
@@ -86,12 +88,8 @@ namespace EFCoreDemo.Controllers
                 return Problem("Entity set 'ContosoUniversityContext.Course'  is null.");
             }
 
-            var c = new Course
-            {
-                Title = course.Title,
-                Credits = course.Credits,
-                DepartmentId = course.DepartmentId
-            };
+            var c = new Course();
+            c.InjectFrom(course);
 
             _context.Course.Add(c);
             await _context.SaveChangesAsync();
