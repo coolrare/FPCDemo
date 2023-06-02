@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EFCoreDemo.Models;
+using EFCoreDemo.Models.Dto;
 
 namespace EFCoreDemo.Controllers
 {
@@ -24,10 +25,6 @@ namespace EFCoreDemo.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourse()
         {
-          if (_context.Course == null)
-          {
-              return NotFound();
-          }
             return await _context.Course.ToListAsync();
         }
 
@@ -35,10 +32,6 @@ namespace EFCoreDemo.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id)
         {
-          if (_context.Course == null)
-          {
-              return NotFound();
-          }
             var course = await _context.Course.FindAsync(id);
 
             if (course == null)
@@ -52,14 +45,17 @@ namespace EFCoreDemo.Controllers
         // PUT: api/Courses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourse(int id, Course course)
+        public async Task<IActionResult> PutCourse(int id, CourseUpdateDto course)
         {
-            if (id != course.CourseId)
+            var c = await _context.Course.FindAsync(id);
+
+            if (c == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(course).State = EntityState.Modified;
+            c.Title = course.Title;
+            c.Credits = course.Credits;
 
             try
             {
@@ -85,10 +81,10 @@ namespace EFCoreDemo.Controllers
         [HttpPost]
         public async Task<ActionResult<Course>> PostCourse(Course course)
         {
-          if (_context.Course == null)
-          {
-              return Problem("Entity set 'ContosoUniversityContext.Course'  is null.");
-          }
+            if (_context.Course == null)
+            {
+                return Problem("Entity set 'ContosoUniversityContext.Course'  is null.");
+            }
             _context.Course.Add(course);
             await _context.SaveChangesAsync();
 
