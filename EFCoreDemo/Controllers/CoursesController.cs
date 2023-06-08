@@ -72,7 +72,7 @@ namespace EFCoreDemo.Controllers
             return courseDto;
         }
 
-        [HttpGet("ByDate/{*dt}", Name = nameof(GetCourseByDate))]
+        [HttpGet("{*dt:datetime}", Name = nameof(GetCourseByDate))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
