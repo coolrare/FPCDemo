@@ -8,10 +8,12 @@ namespace EFCoreDemo.Models;
 
 public partial class CourseCreateDto
 {
-    [Required]
+    [Required(ErrorMessage = "請填寫課程名稱")]
+    [StringLength(50, ErrorMessage = "課程名稱長度不可超過 50 個字元")]
+    [MinLength(3, ErrorMessage = "課程名稱長度不可小於 3 個字元")]
     public string Title { get; set; }
 
-    [Range(1, 5)]
+    [Range(1, 5, ErrorMessage = "設定課程評價需介於 1 ~ 5 之間")]
     public int Credits { get; set; } = 1;
 
     public int DepartmentId { get; set; }
