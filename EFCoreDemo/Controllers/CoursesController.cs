@@ -11,6 +11,9 @@ using Omu.ValueInjecter;
 
 namespace EFCoreDemo.Controllers
 {
+    /// <summary>
+    /// 課程管理 API
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CoursesController : ControllerBase
@@ -22,7 +25,10 @@ namespace EFCoreDemo.Controllers
             _context = context;
         }
 
-        // GET: api/Courses
+        /// <summary>
+        /// 取得課程清單
+        /// </summary>
+        /// <returns>CourseDto</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourse()
         {
@@ -39,7 +45,11 @@ namespace EFCoreDemo.Controllers
                 }).ToListAsync();
         }
 
-        // GET: api/Courses/5
+        /// <summary>
+        /// 取得單筆課程資料
+        /// </summary>
+        /// <param name="id">CourseId</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -100,8 +110,11 @@ namespace EFCoreDemo.Controllers
             return NoContent();
         }
 
-        // POST: api/Courses
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// 新增課程
+        /// </summary>
+        /// <param name="courseDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
