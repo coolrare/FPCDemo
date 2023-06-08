@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EFCoreDemo.Models;
 
-public partial class CourseCreateDto
+public partial class CourseCreateDto : IValidatableObject
 {
     [Required(ErrorMessage = "請填寫課程名稱")]
     [StringLength(50, ErrorMessage = "課程名稱長度不可超過 50 個字元")]
@@ -17,4 +17,12 @@ public partial class CourseCreateDto
     public int Credits { get; set; } = 1;
 
     public int DepartmentId { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (this.Title.Contains("ASP.NET") && this.Credits < 5)
+        {
+            yield return new ValidationResult("ASP.NET 課程的評價必須大於等於 5", new[] { nameof(Credits) });
+        }
+    }
 }
