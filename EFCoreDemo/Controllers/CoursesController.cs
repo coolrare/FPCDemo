@@ -30,10 +30,16 @@ namespace EFCoreDemo.Controllers
         /// </summary>
         /// <returns>CourseDto</returns>
         [HttpGet(Name = nameof(GetCourseAll))]
-        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourseAll()
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourseAll([FromHeader(Name = "X-Filter")] string? Filter)
         {
-            return await _context.Course.Include(p => p.Department)
-                .Select(p => new CourseDto()
+            var data = _context.Course.Include(p => p.Department).AsQueryable();
+
+            if (!String.IsNullOrEmpty(Filter))
+            {
+                data = data.Where(p => p.Title.Contains(Filter));
+            }
+
+            return await data.Select(p => new CourseDto()
                 {
                     DepartmentName = p.Department.Name,
                     CourseId = p.CourseId,
