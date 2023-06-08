@@ -2,13 +2,16 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace EFCoreDemo.Models;
 
 public partial class CourseCreateDto
 {
+    [Required]
     public string Title { get; set; }
 
+    [Range(1, 5)]
     public int Credits { get; set; } = 1;
 
     public int DepartmentId { get; set; }
