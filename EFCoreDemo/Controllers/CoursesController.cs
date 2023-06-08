@@ -115,6 +115,16 @@ namespace EFCoreDemo.Controllers
         /// </summary>
         /// <param name="courseDto"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     {
+        ///       "title": "111",
+        ///       "credits": "2",
+        ///       "departmentId": 1
+        ///     }
+        /// </remarks>
+        /// <response code="201">Returns the newly created item</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
