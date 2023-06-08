@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp60", "ConsoleApp6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcDemo1", "MvcDemo1\MvcDemo1.csproj", "{17B70657-55D6-49F4-A18A-1759B516B1A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiDemo1", "ApiDemo1\ApiDemo1.csproj", "{AF837C70-F933-43B5-B254-BD6C4E7A4D2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiDemo1", "ApiDemo1\ApiDemo1.csproj", "{AF837C70-F933-43B5-B254-BD6C4E7A4D2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreDemo", "EFCoreDemo\EFCoreDemo.csproj", "{9A91AE44-240B-425D-9333-2C913125DDFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreDemo", "EFCoreDemo\EFCoreDemo.csproj", "{9A91AE44-240B-425D-9333-2C913125DDFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{DE026A09-704B-450C-85D4-B93BE7D03ACA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{9A91AE44-240B-425D-9333-2C913125DDFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A91AE44-240B-425D-9333-2C913125DDFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A91AE44-240B-425D-9333-2C913125DDFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE026A09-704B-450C-85D4-B93BE7D03ACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE026A09-704B-450C-85D4-B93BE7D03ACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE026A09-704B-450C-85D4-B93BE7D03ACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE026A09-704B-450C-85D4-B93BE7D03ACA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
