@@ -30,6 +30,9 @@ namespace EFCoreDemo.Controllers
 
         // GET: api/Departments/5
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Department>> GetDepartment(int id)
         {
             var department = await _context.Department.FindAsync(id);
@@ -43,6 +46,9 @@ namespace EFCoreDemo.Controllers
         }
 
         [HttpGet("{id}/Courses")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<IEnumerable<CourseDto>>> GetDepartmentCourses(int id)
         {
             var department = await _context.Department.Include(p => p.Course).FirstOrDefaultAsync(p => p.DepartmentId == id);
@@ -67,6 +73,9 @@ namespace EFCoreDemo.Controllers
         // PUT: api/Departments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> PutDepartment(int id, DepartmentUpdateDto department)
         {
             var d = await _context.Department.FindAsync(id);
@@ -100,6 +109,8 @@ namespace EFCoreDemo.Controllers
         // POST: api/Departments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Department>> PostDepartment(DepartmentCreateDto department)
         {
             var d = new Department();
@@ -112,6 +123,9 @@ namespace EFCoreDemo.Controllers
 
         // DELETE: api/Departments/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteDepartment(int id)
         {
             if (_context.Department == null)
