@@ -72,6 +72,26 @@ namespace EFCoreDemo.Controllers
             return courseDto;
         }
 
+        [HttpGet("ByDate/{*dt}", Name = nameof(GetCourseByDate))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourseByDate(DateTime dt)
+        {
+            return await _context.Course.Include(p => p.Department)
+                .Where(p => p.DateCreated >= dt)
+                .Select(p => new CourseDto()
+                {
+                    DepartmentName = p.Department.Name,
+                    CourseId = p.CourseId,
+                    Credits = p.Credits,
+                    DepartmentId = p.DepartmentId,
+                    Title = p.Title,
+                    DateCreated = p.DateCreated,
+                    DateModified = p.DateModified
+                }).ToListAsync();
+        }
+
         // PUT: api/Courses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}", Name = nameof(UpdateCourse))]
