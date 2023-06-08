@@ -169,7 +169,7 @@ namespace EFCoreDemo.Controllers
             c2.InjectFrom(c1);
             c2.DepartmentName = c1?.Department.Name;
 
-            return CreatedAtAction("GetCourseById", new { id = c2.CourseId }, c2);
+            return CreatedAtAction(nameof(GetCourseById), new { id = c2.CourseId }, c2);
         }
 
         // DELETE: api/Courses/5
