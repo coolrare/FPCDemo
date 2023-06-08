@@ -11,6 +11,7 @@
           "Courses"
         ],
         "summary": "取得課程清單",
+        "operationId": "GetCourseAll",
         "responses": {
           "200": {
             "description": "Success",
@@ -49,6 +50,7 @@
         ],
         "summary": "新增課程",
         "description": "Sample request:\r\n\r\n    {\r\n      \"title\": \"111\",\r\n      \"credits\": \"2\",\r\n      \"departmentId\": 1\r\n    }",
+        "operationId": "CreateCourse",
         "requestBody": {
           "description": "",
           "content": {
@@ -119,6 +121,7 @@
           "Courses"
         ],
         "summary": "取得單筆課程資料",
+        "operationId": "GetCourseById",
         "parameters": [
           {
             "name": "id",
@@ -199,6 +202,7 @@
         "tags": [
           "Courses"
         ],
+        "operationId": "UpdateCourse",
         "parameters": [
           {
             "name": "id",
@@ -280,6 +284,7 @@
         "tags": [
           "Courses"
         ],
+        "operationId": "DeleteCourse",
         "parameters": [
           {
             "name": "id",

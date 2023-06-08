@@ -29,8 +29,8 @@ namespace EFCoreDemo.Controllers
         /// 取得課程清單
         /// </summary>
         /// <returns>CourseDto</returns>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourse()
+        [HttpGet(Name = nameof(GetCourseAll))]
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourseAll()
         {
             return await _context.Course.Include(p => p.Department)
                 .Select(p => new CourseDto()
@@ -50,11 +50,11 @@ namespace EFCoreDemo.Controllers
         /// </summary>
         /// <param name="id">CourseId</param>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = nameof(GetCourseById))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<CourseDto>> GetCourse(int id)
+        public async Task<ActionResult<CourseDto>> GetCourseById(int id)
         {
             var course = await _context.Course.Include(p => p.Department).FirstOrDefaultAsync(p => p.CourseId == id);
 
@@ -74,11 +74,11 @@ namespace EFCoreDemo.Controllers
 
         // PUT: api/Courses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = nameof(UpdateCourse))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> PutCourse(int id, CourseUpdateDto course)
+        public async Task<IActionResult> UpdateCourse(int id, CourseUpdateDto course)
         {
             var c = await _context.Course.FindAsync(id);
 
@@ -125,10 +125,10 @@ namespace EFCoreDemo.Controllers
         ///     }
         /// </remarks>
         /// <response code="201">Returns the newly created item</response>
-        [HttpPost]
+        [HttpPost(Name = nameof(CreateCourse))]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<CourseDto>> PostCourse(CourseCreateDto courseDto)
+        public async Task<ActionResult<CourseDto>> CreateCourse(CourseCreateDto courseDto)
         {
             if (_context.Course == null)
             {
@@ -149,11 +149,11 @@ namespace EFCoreDemo.Controllers
             c2.InjectFrom(c1);
             c2.DepartmentName = c1?.Department.Name;
 
-            return CreatedAtAction("GetCourse", new { id = c2.CourseId }, c2);
+            return CreatedAtAction("GetCourseById", new { id = c2.CourseId }, c2);
         }
 
         // DELETE: api/Courses/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = nameof(DeleteCourse))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
