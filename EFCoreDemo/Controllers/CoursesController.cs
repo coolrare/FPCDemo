@@ -36,6 +36,8 @@ namespace EFCoreDemo.Controllers
 
             if (!String.IsNullOrEmpty(Filter))
             {
+                Filter = System.Net.WebUtility.UrlDecode(Filter);
+
                 data = data.Where(p => p.Title.Contains(Filter));
             }
 
