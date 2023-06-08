@@ -39,6 +39,8 @@ namespace EFCoreDemo.Controllers
                 Filter = System.Net.WebUtility.UrlDecode(Filter);
 
                 data = data.Where(p => p.Title.Contains(Filter));
+
+                throw new ArgumentException("Filter BAD");
             }
 
             return await data.Select(p => new CourseDto()
