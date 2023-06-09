@@ -11,6 +11,7 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console()
     .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.Seq("http://localhost:5341", apiKey: "siUQ5YOShiwSS0UD1Nps")
     .CreateLogger();
 
 try
