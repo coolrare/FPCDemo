@@ -19,10 +19,12 @@ namespace EFCoreDemo.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly ContosoUniversityContext _context;
+        private readonly ILoggerFactory loggerFactory;
 
-        public CoursesController(ContosoUniversityContext context)
+        public CoursesController(ContosoUniversityContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
+            this.loggerFactory = loggerFactory;
         }
 
         /// <summary>
@@ -32,7 +34,11 @@ namespace EFCoreDemo.Controllers
         [HttpGet(Name = nameof(GetCourseAll))]
         public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourseAll([FromHeader(Name = "X-Filter")] string? Filter)
         {
+            var log = loggerFactory.CreateLogger("GetCourseAll");
+
             var data = _context.Course.Include(p => p.Department).AsQueryable();
+
+            log.LogInformation("Filter: " + Filter);
 
             if (!String.IsNullOrEmpty(Filter))
             {
@@ -40,7 +46,9 @@ namespace EFCoreDemo.Controllers
 
                 data = data.Where(p => p.Title.Contains(Filter));
 
-                throw new ArgumentException("Filter BAD");
+                var ex = new ArgumentException("Filter BAD");
+
+                log.LogError(ex, "Filter BAD");
             }
 
             return await data.Select(p => new CourseDto()
