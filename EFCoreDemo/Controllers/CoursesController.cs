@@ -32,13 +32,17 @@ namespace EFCoreDemo.Controllers
         /// </summary>
         /// <returns>CourseDto</returns>
         [HttpGet(Name = nameof(GetCourseAll))]
-        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourseAll([FromHeader(Name = "X-Filter")] string? Filter)
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourseAll([FromHeader(Name = "X-Filter")] string? Filter,
+            [FromServices] IWebHostEnvironment env)
         {
             var log = loggerFactory.CreateLogger("GetCourseAll");
 
             var data = _context.Course.Include(p => p.Department).AsQueryable();
 
-            log.LogInformation("Filter: " + Filter);
+            if (env.IsEnvironment("UAT"))
+            {
+                log.LogInformation("Filter: " + Filter);
+            }
 
             if (!String.IsNullOrEmpty(Filter))
             {
