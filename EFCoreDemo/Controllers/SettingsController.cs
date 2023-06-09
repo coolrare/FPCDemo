@@ -24,8 +24,8 @@ namespace EFCoreDemo.Controllers
             this.logger.LogTrace(1, "Getting settings");
             this.logger.LogDebug(2, "Getting settings");
             this.logger.LogInformation(3, "Getting settings");
-            this.logger.LogInformation(3, "SiteName = " + appSettings.Value.SiteName);
-            this.logger.LogInformation(3, "SMTPIP = " + appSettings.Value.SMTPIP);
+            this.logger.LogInformation(3, "SiteName = {SiteName}", appSettings.Value.SiteName);
+            this.logger.LogInformation(3, "SMTPIP = {SMTPIP}", appSettings.Value.SMTPIP);
             this.logger.LogWarning(4, "Getting settings");
             this.logger.LogError(5, "Getting settings");
             this.logger.LogCritical(6, "Getting settings");
