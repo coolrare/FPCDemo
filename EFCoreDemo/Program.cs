@@ -1,66 +1,94 @@
 using EFCoreDemo.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using System.Text.Json.Serialization;
 
-var builder = WebApplication.CreateBuilder(args);
+using Serilog;
+using Serilog.Events;
 
-// Add services to the container.
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
-builder.Logging.ClearProviders();
-builder.Logging.AddJsonConsole();
-builder.Logging.AddDebug();
-
-builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-
-builder.Services.AddCors(options =>
+try
 {
-    options.AddDefaultPolicy(builder =>
+    Log.Information("Starting web host");
+
+    var builder = WebApplication.CreateBuilder(args);
+
+    // Add services to the container.
+
+    //builder.Logging.ClearProviders();
+    //builder.Logging.AddJsonConsole();
+    //builder.Logging.AddDebug();
+
+    builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
+    builder.Services.AddCors(options =>
     {
-        builder.WithOrigins("https://blog.miniasp.com")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+        options.AddDefaultPolicy(builder =>
+        {
+            builder.WithOrigins("https://blog.miniasp.com")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
     });
-});
 
-builder.Services.AddDbContext<ContosoUniversityContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-
-    if (builder.Environment.IsDevelopment())
+    builder.Services.AddDbContext<ContosoUniversityContext>(options =>
     {
-        options.EnableSensitiveDataLogging();
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+        if (builder.Environment.IsDevelopment())
+        {
+            options.EnableSensitiveDataLogging();
+        }
+    });
+
+    builder.Services.AddControllers();
+
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen(options =>
+    {
+        // using System.Reflection;
+        var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+    });
+
+    builder.Host.UseSerilog();
+
+    var app = builder.Build();
+
+    app.UseExceptionHandler("/error");
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
     }
-});
 
-builder.Services.AddControllers();
+    app.UseHttpsRedirection();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    // using System.Reflection;
-    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-});
+    app.UseCors();
 
-var app = builder.Build();
+    app.UseAuthorization();
 
-app.UseExceptionHandler("/error");
+    app.MapControllers();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.Run();
+
+    return 0;
 }
-
-app.UseHttpsRedirection();
-
-app.UseCors();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Host terminated unexpectedly");
+    return 1;
+}
+finally
+{
+    Log.CloseAndFlush();
+}
