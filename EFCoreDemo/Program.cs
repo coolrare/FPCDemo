@@ -4,6 +4,9 @@ using System.Reflection;
 
 using Serilog;
 using Serilog.Events;
+using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Interfaces;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
@@ -54,6 +57,28 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(options =>
     {
+        options.SwaggerDoc("v1", new OpenApiInfo
+        {
+            Title = "EFCoreDemo", 
+            Version = "v1",
+            Description = "ASP.NET Core Web API Demo",
+            Contact = new OpenApiContact
+            {
+                Name = "Will 保哥",
+                Email = "will@example.com"
+            },
+            License = new OpenApiLicense
+            {
+                Name = "MIT License",
+                Url = new Uri("https://opensource.org/licenses/MIT")
+            },
+            TermsOfService = new Uri("https://www.duotify.com"),
+            Extensions = new Dictionary<string, IOpenApiExtension>
+            {
+                { "X-Company", new OpenApiString("保哥出版社") }
+            },
+        });
+
         // using System.Reflection;
         var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
         options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
